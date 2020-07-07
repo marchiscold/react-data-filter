@@ -22,4 +22,31 @@ body {
 
 .container {
   color: #fff;
+  padding: 0px 15px;
+}
+
+.episodes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.episodes__item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  width: 110px;
+  text-align: center;
+  min-height: 150px;
+  background-color: #1c1c1c;
+  margin: 0px 5px 5px 0px;
+}
+
+.episodes__item:hover {
+  background-color: #222;
+}
+
+.episodes__linebreak {
+  width: 100%;
 }
