@@ -25,16 +25,16 @@ body {
   padding: 0px 15px;
 }
 
-.episodes {
+.characters {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
 }
 
-.episodes__item {
+.characters__item {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-end;
   cursor: pointer;
   width: 110px;
   text-align: center;
@@ -43,10 +43,10 @@ body {
   margin: 0px 5px 5px 0px;
 }
 
-.episodes__item:hover {
+.characters__item:hover {
   background-color: #222;
 }
 
-.episodes__linebreak {
+.characters__linebreak {
   width: 100%;
 }
