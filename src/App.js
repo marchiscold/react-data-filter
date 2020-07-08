@@ -4,11 +4,14 @@ import './App.css';
 import Header from './components/ui/Header';
 
 function Characters (props) {
-  console.log(props.characters[0].name);
   let chars = props.characters.slice(0, 12);
   let charElems = chars.map((character) => {
+    if (!character.name.includes(props.searchValue)) {
+      return null;
+    }
     return (
       <div className='characters__item'
+           key={character.char_id}
            style={{backgroundImage: `url(${character.img})`,
                    backgroundSize: 'cover'}}
             >
@@ -23,10 +26,22 @@ function Characters (props) {
   );
 }
 
+function FilterSearch (props) {
+
+  return (
+    <input value={props.value}
+           onChange={(e) => props.onChange(e.target.value)}
+           id='search' 
+           type='text' 
+           placeholder='Character name'></input>
+  );
+}
+
 
 function App() {
   const [items, setItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [searchValue, setSearchValue] = useState('');
 
   useEffect(() => {
     const fetchItems = async () => {
@@ -38,12 +53,17 @@ function App() {
     
     fetchItems();
   }, []);
+
+  function handleSearch (name) {
+    setSearchValue(name);
+  }
   
   return (
     <div className="container">
       <Header />
+      <FilterSearch onChange={handleSearch} value={searchValue}/>
       {isLoading ? <div>loading...</div> 
-                 : <Characters characters={items}/>}
+                 : <Characters characters={items} searchValue={searchValue}/>}
     </div>
   );
 }
