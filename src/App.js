@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import Header from './components/ui/Header';
 
@@ -16,10 +17,24 @@ function Episodes (props) {
 
 
 function App() {
+  const [items, setItems] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchItems = async () => {
+      const items = await axios(`https://www.breakingbadapi.com/api/characters`);
+      console.log(items.data);
+      setIsLoading(false);
+    }
+    
+    fetchItems();
+  });
+  
   return (
     <div className="container">
       <Header />
-      <Episodes />
+      {isLoading ? <div>loading...</div> 
+                 : <Episodes />}
     </div>
   );
 }
