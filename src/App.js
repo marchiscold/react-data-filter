@@ -15,10 +15,17 @@ function Characters (props) {
            style={{backgroundImage: `url(${character.img})`,
                    backgroundSize: 'cover'}}
             >
-            {character.name}
+            <div className='characters__name'>{character.name}</div>
       </div>
     );
   });
+
+  if (props.isLoading) {
+    return (
+      <div>loading...</div>
+    );
+  }
+  
   return (
     <div className='characters'>
       {charElems}
@@ -62,8 +69,10 @@ function App() {
     <div className="container">
       <Header />
       <FilterSearch onChange={handleSearch} value={searchValue}/>
-      {isLoading ? <div>loading...</div> 
-                 : <Characters characters={items} searchValue={searchValue}/>}
+      <Characters characters={items} 
+                  searchValue={searchValue}
+                  isLoading={isLoading}
+                  />
     </div>
   );
 }
