@@ -4,7 +4,7 @@ import './App.css';
 import Header from './components/ui/Header';
 
 function Characters (props) {
-  let chars = props.characters.slice(0, 12);
+  let chars = props.characters.slice(0, 32);
   let charElems = chars.map((character) => {
     if (!character.name.includes(props.searchValue)) {
       return null;
@@ -25,7 +25,7 @@ function Characters (props) {
       <div>loading...</div>
     );
   }
-  
+
   return (
     <div className='characters'>
       {charElems}
@@ -44,11 +44,21 @@ function FilterSearch (props) {
   );
 }
 
+function Pagination (props) {
+  if (props.isLoading) {
+    return null;
+  }
+  return (    
+    <div className='pagination'>pagination</div>
+  )
+}
 
 function App() {
   const [items, setItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchValue, setSearchValue] = useState('');
+  const [page, setPage] = useState(1);
+  const [postsPerPage, setPostsPerPage] = useState(10);
 
   useEffect(() => {
     const fetchItems = async () => {
@@ -69,9 +79,12 @@ function App() {
     <div className="container">
       <Header />
       <FilterSearch onChange={handleSearch} value={searchValue}/>
+      <Pagination isLoading={isLoading}/>
       <Characters characters={items} 
                   searchValue={searchValue}
                   isLoading={isLoading}
+                  page={page}
+                  postsPerPage={postsPerPage}
                   />
     </div>
   );
