@@ -4,7 +4,8 @@ import './App.css';
 import Header from './components/ui/Header';
 
 function Characters (props) {
-  let chars = props.characters.slice(0, 32);
+  let starterPos = (props.page - 1) * props.postsPerPage;
+  let chars = props.characters.slice(starterPos, starterPos + props.postsPerPage);
   let charElems = chars.map((character) => {
     if (!character.name.includes(props.searchValue)) {
       return null;
@@ -48,8 +49,26 @@ function Pagination (props) {
   if (props.isLoading) {
     return null;
   }
+
+  let numberOfPages = Math.ceil(props.characters.length / props.postsPerPage);
+  let pageButtons = [];
+  for (let i = 0; i < numberOfPages; i++) {
+    pageButtons.push(
+      <li className={'pagination__item ' + (props.page == i + 1 ? 'active' : '')} 
+          key={ i }
+          onClick={ () => props.onClick( i + 1 ) }
+      >
+        { i + 1 }
+      </li>
+    );
+  }
+
   return (    
-    <div className='pagination'>pagination</div>
+    <div className='pagination'>
+      <ul>
+        {pageButtons}
+      </ul>
+    </div>
   )
 }
 
@@ -74,12 +93,21 @@ function App() {
   function handleSearch (name) {
     setSearchValue(name);
   }
+
+  function changePage (page) {
+    setPage(page);
+  }
   
   return (
     <div className="container">
       <Header />
       <FilterSearch onChange={handleSearch} value={searchValue}/>
-      <Pagination isLoading={isLoading}/>
+      <Pagination isLoading={isLoading}
+                  characters={items}
+                  page={page}
+                  postsPerPage={postsPerPage}
+                  onClick={changePage}
+      />
       <Characters characters={items} 
                   searchValue={searchValue}
                   isLoading={isLoading}
